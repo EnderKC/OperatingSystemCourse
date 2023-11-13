@@ -310,6 +310,9 @@ bool closeFile(AFD *afd , char file_name[]){
         }else{
             prevFile->next = thisFile->next;
         }
+        if(strcmp(afd->tail->file_name,file_name) == 0){
+            afd->tail = prevFile;
+        }
         delete thisFile;
         return true;
     }
