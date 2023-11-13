@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <unistd.h>
-#include <pthread.h>
 #include <sys/types.h>
 #include <sys/syscall.h>
 /*
@@ -24,21 +23,23 @@
 
 int main(int argc, char const *argv[])
 {
-    printf("程序开始。。\n");
+    printf("===程序开始===\n");
     pid_t pid;
     int fd[2];
     if(pipe(fd) < 0){
         fprintf(stderr,"pipe:%s\n",strerror(errno));
-        exit(1);
+        return -1;
     }
     if((pid = fork()) < 0){
-        exit(1);
+        printf("创建进程失败");
+        return -1;
     }else if (pid > 0)
     {
         close(fd[0]);
         int start = 100 , end = 200;
         write(fd[1],&start,sizeof(int));
         write(fd[1],&end,sizeof(int));
+        printf("父进程写入完毕\n");
     }else{
         close(fd[1]);
         int start , end;
@@ -46,7 +47,6 @@ int main(int argc, char const *argv[])
         read(fd[0],&end,sizeof(int));
         printf("start is %d,end is %d\n",start,end);
     }
-    printf("程序结束。。\n");
-    exit(0);
+    printf("===程序结束===\n");
     return 0;
 }
