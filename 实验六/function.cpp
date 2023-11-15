@@ -231,6 +231,7 @@ bool readFile(AFD *afd , char file_name[]){
     {
         // 比对文件的名称
         if(strcmp(thisFile->file_name,file_name) == 0){
+            thisFile->read = thisFile->file_length;
             // 文件读取成功
             return true;
         }
@@ -249,6 +250,7 @@ bool writeFile(AFD *afd , char file_name[]){
     {
         // 比对文件的名称
         if(strcmp(thisFile->file_name,file_name) == 0){
+            thisFile->write = thisFile->file_length;
             // 文件写入成功
             return true;
         }
